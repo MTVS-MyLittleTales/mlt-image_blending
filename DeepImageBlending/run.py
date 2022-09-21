@@ -101,17 +101,17 @@ while run[0] <= num_steps:
         grad_loss *= grad_weight
         
         # Compute Style Loss
-        target_features_style = vgg(mean_shift(target_img))
-        target_gram_style = [gram_matrix(y) for y in target_features_style]
-
-        blend_features_style = vgg(mean_shift(input_img))
-        blend_gram_style = [gram_matrix(y) for y in blend_features_style]
-
-        style_loss = 0
-        for layer in range(len(blend_gram_style)):
-            style_loss += mse(blend_gram_style[layer], target_gram_style[layer])
-        style_loss /= len(blend_gram_style)
-        style_loss *= style_weight
+        # target_features_style = vgg(mean_shift(target_img))
+        # target_gram_style = [gram_matrix(y) for y in target_features_style]
+        #
+        # blend_features_style = vgg(mean_shift(input_img))
+        # blend_gram_style = [gram_matrix(y) for y in blend_features_style]
+        #
+        # style_loss = 0
+        # for layer in range(len(blend_gram_style)):
+        #     style_loss += mse(blend_gram_style[layer], target_gram_style[layer])
+        # style_loss /= len(blend_gram_style)
+        # style_loss *= style_weight
 
         
         # Compute Content Loss
@@ -127,7 +127,7 @@ while run[0] <= num_steps:
         tv_loss *= tv_weight
         
         # Compute Total Loss and Update Image
-        loss = grad_loss + style_loss + content_loss + tv_loss
+        loss = grad_loss + content_loss + tv_loss
         optimizer.zero_grad()
         loss.backward()
         
@@ -199,8 +199,8 @@ while run[0] <= 100:
         style_loss = 0
         for layer in range(len(blend_gram_style)):
             style_loss += mse(blend_gram_style[layer], target_gram_style[layer])
-        style_loss /= len(blend_gram_style)  
-        style_loss *= style_weight        
+        style_loss /= len(blend_gram_style)
+        style_loss *= style_weight
         
         # Compute Content Loss
         content_features = vgg(mean_shift(first_pass_img))
@@ -236,4 +236,3 @@ imsave('results/'+str(name)+'_second_pass.png', input_img_np.astype(np.uint8))
 
 end2 = timer()
 print(timedelta(seconds=end2-start2), timedelta(seconds=end2-start))
-

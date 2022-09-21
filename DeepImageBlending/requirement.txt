@@ -1,0 +1,6 @@
+pytorch torchvision torchaudio cudatoolkit=11.6 -c pytorch -c conda-forge
+matplotlib
+numpy
+tifffile
+scipy
+attrs
